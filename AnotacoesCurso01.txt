@@ -1,0 +1,398 @@
+Instalar:
+
+# sudo apt-get install git
+
+# sudo add-apt-repository ppa:git-core/ppa
+
+# sudo apt update; apt install git
+
+==========================================================================
+
+Apos criar uma pasta com um arquivo, fazer o comando abaixo para
+indicar que a pasta está sendo administrada pelo Git
+
+# git init
+
+=========================================================================
+
+Verificar com o comando abaixo o status
+
+# git status
+
+=========================================================================
+
+Após isso, entrar com o cadastro de quem utilizara a maquina e irá 
+trabalhar no Git, estas informações irão aparecer quando enviar novas
+versoes dos programas
+
+# git config --local user.name "Walter"
+ 
+# git config --local user.email "wsimoes82@gmail.com"
+
+==========================================================================
+
+Adicionar arquivos para serem monitorados pelo Git
+
+Para adicionar arquivo individualmente e/ou modificações:
+
+# git add (arquivo) 
+
+ou
+Para adicionar todos arquivos da pasta:
+
+# git add .
+
+Adicionar msg de atualizacao nos commits
+
+# git commit -m "mensagem breve"
+
+Para remover um arquivo do monitoramento do git
+basta dar o comando:
+
+# git rm (arquivo)
+
+==========================================================================
+
+Ao executar o comando git status, recebemos algumas informações que 
+talvez não estejam tão claras, principalmente quando nos deparamos com 
+termos como HEAD, working tree, index, etc.
+
+Apenas para esclarecer um pouco, visto que entenderemos melhor o 
+funcionamento do Git durante o treinamento, seguem algumas definições 
+interessantes:
+
+- HEAD: Estado atual do nosso código, ou seja, onde o Git os colocou
+
+- Working tree: Local onde os arquivos realmente estão sendo armazenados 
+e editados
+
+- index: Local onde o Git armazena o que será commitado, ou seja, o 
+local entre a working tree e o repositório Git em si.
+Além disso, os possíveis estados dos nossos arquivos são explicados 
+com detalhes neste link: 
+
+<https://git-scm.com/book/pt-br/v2/Fundamentos-de-Git-Gravando-Altera%C3%A7%C3%B5es-em-Seu-Reposit%C3%B3rio.
+
+============================================================================
+
+Saber todas alterações de um arquivo ou da pasta
+
+# git log
+
+ver cada commuti em uma unica linha:
+
+# git log --oneline
+
+ver mais informações:
+
+# git log -p
+
+Filtrar por autor:
+
+# git log --author="Walter"
+
+============================================================================
+
+Para que o Git saiba quem está realizando as alterações, ele precisa de 
+algumas configurações. Na primeira vez que você tentar realizar um commit 
+em uma máquina, ele pedirá que você o configure.
+
+Como podemos definir o nome da pessoa que executa commits no repositório 
+local atual?
+
+# git config --local user.name "Nome da pessoa"
+￼
+============================================================================
+
+Fazer o git ignorar um determinado arquivo:
+
+criar um arquivo com nome .gitignore e dentro dele adionar o nome
+dos arquivos a serem ignorados, se forem pastas utilizar a "/" antes
+do nome
+
+# pico .gitignore
+
+Apos isso, deve dar um add e um commit no arquivo .gitignore
+
+# git add .gitignore
+
+# git commit -m "Adicionando o .gitignore"
+
+============================================================================
+
+Criar um diretorio somente para ter as alterações do arquivo
+deve usar o comando (sera um repositorio remoto):
+
+# git init --bare
+
+Agora tem que fazer o reposito master reconhecer este repositorio 
+remoto
+
+# git remote add local /home/walter/AluraCursos/Git/servidor1/
+
+"Local" é o nome que escolhemos dar para este repositorio
+apos isso, deve declarar o endereco do repositorio
+
+para ver os repositorios remotos adicionadas, dar o comando:
+
+# git remote
+
+para verificar se o endereco esta correto
+
+# git  remote -v 
+
+walter@DEFIANT-DS9:~/AluraCursos/Git/Curso01$ git remote -v
+local	/home/walter/AluraCursos/Git/servidor1/ (fetch)
+local	/home/walter/AluraCursos/Git/servidor1/ (push)
+
+Esta falando que o fetch é onde ele busca dados
+e push é o local onde é enviado os dados
+
+
+---
+
+Supondo que existe mais uma pessoa na equipe, ela precisa utilizar no pc
+dela e precisa baixar os dados deste repositorio, segue exemplo:
+
+1 - a pessoa tem que clonar este diretorio
+
+# git clone /home/walter/AluraCursos/Git/Curso01 projeto
+
+============================================================================
+
+Agr aprender como enviar repositorio para o "local"
+utilizaremos o git push
+
+# git push local master
+
+"local" é onde ira receber tudo que está em "master"
+
+resultado:
+---------------
+
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (9/9), 897 bytes | 299.00 KiB/s, done.
+Total 9 (delta 1), reused 0 (delta 0), pack-reused 0
+To /home/walter/AluraCursos/Git/servidor1/
+ * [new branch]      master -> master
+
+----------------
+
+agora o membro da equipe tem que ir na pasta dele
+e dar o comando git pull 
+
+mas antes vamos renomear o git remote que está como "origin" para "local"
+
+# git remote rename origin local
+
+agora iremos trazer o repositorio remoto para a master do membro da equipe
+
+# git pull local master
+
+resultado:
+
+----------------
+remote: Enumerating objects: 9, done.
+remote: Counting objects: 100% (9/9), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 9 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (9/9), 877 bytes | 292.00 KiB/s, done.
+From /home/walter/AluraCursos/Git/servidor1
+ * branch            master     -> FETCH_HEAD
+ * [new branch]      master     -> local/master
+----------------
+
+agora o membro da equipe pode editar os arquivos
+editei linha do index.html
+
+deve adicionar esta index.html editada
+
+# git add index.html
+
+dar um commit dps:
+
+# git commit -m "Renomeando curso de integração continua"
+
+agora como administrador nao podemos ver ainda as mudanças
+tem que dar, isso o membro da equipe dever dar:
+
+# git push local master
+
+Resultado:
+--------------
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 398 bytes | 398.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+To /home/walter/AluraCursos/Git/servidor1
+   56301e5..079c520  master -> master
+--------------
+
+agora como administrador deve dar o comando abaixo para receber:
+
+# git push local master
+
+Resultado:
+------------------
+remote: Enumerating objects: 8, done.
+remote: Counting objects: 100% (8/8), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 6 (delta 2), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (6/6), 686 bytes | 228.00 KiB/s, done.
+From /home/walter/AluraCursos/Git/servidor1
+ * branch            master     -> FETCH_HEAD
+   56301e5..a4cfd66  master     -> local/master
+Updating 56301e5..a4cfd66
+Fast-forward
+ index.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+------------------
+
+=============================================================================
+
+Antes de fazer algo, assista:
+
+https://www.youtube.com/watch?v=E28J23gCBIs&t=855s
+
+
+Para acessar o github primeiro deve:
+
+# git config --global user.name "WalterDeSimone"
+
+criar uma senha para ssh
+
+# ssh-keygen 
+Resultado:
+--------------------------------------------------------------------
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/walter/.ssh/id_rsa): alura01
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in alura01
+Your public key has been saved in alura01.pub
+The key fingerprint is:
+SHA256:dK+Sj2ELGSyT3UF60EyqXU0GU8aB5mlBK1FgHTlm+go walter@DEFIANT-DS9
+The key's randomart image is:
++---[RSA 3072]----+
+|      =OOB*.     |
+|     . *%B.      |
+|      +**+o      |
+|     *.*+o .     |
+|    = =oS   .    |
+|    Eo o.. .     |
+|     .o.= .      |
+|      .o *       |
+|        o .      |
++----[SHA256]-----+
+walter@DEFIANT-DS9:~/AluraCursos/Git/Curso01$ ls
+alura01  alura01.pub  index.html  README
+walter@DEFIANT-DS9:~/AluraCursos/Git/Curso01$ 
+---------------------------------------------------------
+
+rodar o comando:
+
+# eval 'ssh-agent'
+
+e:
+
+# ssh-add alura01
+
+Tudo isso dentro da pasta que contem os arquivos
+
+para subir para o github deve dar os comandos conforme o 
+proprio site pede:
+
+# git remote add origin https://github.com/WalterDeSimone/alura-git01.git
+# git branch -M main
+# git push -u origin main
+
+RESUMAO:
+
+Chegou a hora de você pôr em prática o que foi visto na aula. 
+Para isso, execute os passos listados abaixo.
+
+1) Crie uma pasta nova em seu computador;
+
+2) No terminal (ou Git Bash, no Windows) navegue até a pasta recém criada 
+(utilize o comando cd para navegar entre pastas);
+
+3) Execute o comando git init --bare;
+
+OBS: Não se esqueça do parâmetro --bare. Caso tenha executado o comando init 
+sem esse parâmetro, execute na sequência o seguinte comando: 
+git config core.bare true.
+
+4) Navegue até a pasta onde se encontra o seu projeto;
+
+5) Execute o comando git remote add local {caminho}. Substitua {caminho} 
+pelo caminho completo da pasta recém criada;
+
+6) Crie uma nova pasta em seu computador, para representar o trabalho de 
+outra pessoa;
+
+7) No terminal (ou Git Bash, no Windows) navegue até a pasta recém criada;
+
+8) Execute o comando git clone {caminho} projeto. Substitua {caminho} pelo 
+caminho completo da pasta que criamos no primeiro passo;
+
+9) Observe que o repositório clonado está vazio;
+
+10) Acesse a pasta Projeto e execute o comando 
+'git remote rename origin local' para renomear o repositório local da outra 
+pessoa de "origin" para "local";
+
+11) Navegue até a pasta onde se encontra o seu projeto original;
+
+12) Execute o comando git push local main para enviar as suas modificações 
+para o seu servidor;
+
+13) Navegue até a pasta criada no passo 6;
+
+14) Execute o comando git pull local main para baixar as modificações;
+
+15) Abra o seu navegador e acesse http://github.com/;
+
+16) Crie uma conta;
+
+17) Crie um novo repositório, clicando no símbolo de adição no canto 
+superior direito;
+
+18) No terminal (ou Git Bash, no Windows) adicione, ao seu projeto 
+inicial, o repositório remoto recém criado (os comandos são mostrados 
+pelo próprio GitHub);
+
+19) Execute git push origin main para enviar as suas alterações para o 
+repositório no GitHub.
+
+============================================================================
+
+Nesta aula, aprendemos:
+
+O que são repositórios remotos;
+
+Como criar um repositório Git sem uma cópia dos arquivos (com --bare) para 
+ser utilizado como servidor;
+
+Como adicionar links para os repositórios remotos, 
+com o comando git remote add;
+
+Como baixar um repositório pela primeira vez, clonando-o com o comando 
+git clone;
+
+Como enviar as nossas alterações para um repositório remoto, com git push;
+
+Como atualizar o nosso repositório com os dados no repositório remoto, 
+utilizando git pull;
+
+O que é e para que serve o GitHub;
+
+Como criar um repositório no GitHub;
+
+Como adicionar um repositório do GitHub como repositório remoto.
+
+=============================================================================

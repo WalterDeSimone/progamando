@@ -1,3 +1,26 @@
+Quando vc estiver em um repositorio e quiser subir para o GitHub
+tem que fazer os seguintes comandos sempre que iniciar o PC
+Pois o ssh nao vai reconhecer a configuracao anterior
+mesmo estando tudo certo
+
+# eval 'ssh-agent'
+
+e
+
+# ssh-add progamando
+
+
+
+Paara criar uma nova branch
+
+# git checkout -b <mome da branch>
+
+Mostrar todas as branchs e a que vc esta no momento
+
+# git branch --all
+ 
+============================
+
 Instalar:
 
 # sudo apt-get install git
